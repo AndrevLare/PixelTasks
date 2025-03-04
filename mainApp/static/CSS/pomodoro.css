@@ -1,0 +1,108 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  height: 100vh;
+  background-color: #e6ebfa; /* Color de fondo ya usado */
+}
+
+.main--h1 {
+  font-size: 3.75rem;
+  color: #333; /* Color de texto ya usado */
+}
+.main--h2 {
+  font-size: 1.25rem;
+  color: #555;
+  margin-bottom: 5rem;
+}
+
+.main__pomodoro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: shake 0.5s forwards;
+  animation-delay: 0.25s;
+}
+
+.main__pomodoro__timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.main__pomodoro__timer--time {
+  font-size: 5rem;
+  color: #333; /* Color de texto ya usado */
+  margin-bottom: 1rem;
+}
+
+.main__pomodoro__timer__buttons button {
+  background-color: #bfbffa; /* Color de botón ya usado */
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.75rem;
+  transition: background-color 0.3s;
+}
+
+.main__pomodoro__timer__buttons button:hover {
+  background-color: #5aa9a3; /* Color de botón hover ya usado */
+}
+
+.main__pomodoro__settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main__pomodoro__settings__time {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.main__pomodoro__settings__time label {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+  color: #333; /* Color de texto ya usado */
+}
+
+.main__pomodoro__settings__time input {
+  font-size: 1.5rem;
+  width: 50px;
+  padding: 0.25rem;
+  border: 1px solid #ccc; /* Color de borde ya usado */
+  border-radius: 5px;
+  text-align: center;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0) rotate(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-10px) rotate(-2deg);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(10px) rotate(2deg);
+  }
+  100% {
+    transform: translateX(0) rotate(0);
+  }
+}

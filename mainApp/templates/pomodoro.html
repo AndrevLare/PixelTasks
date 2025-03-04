@@ -1,0 +1,72 @@
+{% extends 'layouts/base.html' %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'CSS/pomodoro.css' %}" />
+{% endblock %} {% block content %}
+<main class="main">
+  <h1 class="main--h1">Your Pomodoro</h1>
+  <h2 class="main--h2">Need help to dedicate time for your proyect?</h2>
+  <div class="main__pomodoro">
+    <div class="main__pomodoro__timer">
+      <p class="main__pomodoro__timer--time" id="time">25:00</p>
+      <div class="main__pomodoro__timer__buttons">
+        <button onclick="startTimer()">Start</button>
+        <button onclick="stopTimer()">Stop</button>
+        <button onclick="resetTimer()">Reset</button>
+      </div>
+    </div>
+    <div class="main__pomodoro__settings">
+      <div class="main__pomodoro__settings__time">
+        <label for="workTime">Work Time:</label>
+        <input type="number" id="workTime" value="25" />
+      </div>
+      <div class="main__pomodoro__settings__time">
+        <label for="breakTime">Break Time:</label>
+        <input type="number" id="breakTime" value="5" />
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  let timer;
+  let isRunning = false;
+  let timeLeft = 25 * 60; // Default work time in seconds
+
+  function startTimer() {
+    if (isRunning) return;
+    isRunning = true;
+    timer = setInterval(updateTimer, 1000);
+  }
+
+  function stopTimer() {
+    isRunning = false;
+    clearInterval(timer);
+  }
+
+  function resetTimer() {
+    stopTimer();
+    const workTime = document.getElementById("workTime").value;
+    timeLeft = workTime * 60;
+    updateDisplay();
+  }
+
+  function updateTimer() {
+    if (timeLeft <= 0) {
+      stopTimer();
+      alert("Time is up!");
+      return;
+    }
+    timeLeft--;
+    updateDisplay();
+  }
+
+  function updateDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    document.getElementById("time").textContent = `${minutes}:${
+      seconds < 10 ? "0" : ""
+    }${seconds}`;
+  }
+
+  document.getElementById("workTime").addEventListener("change", resetTimer);
+  document.getElementById("breakTime").addEventListener("change", resetTimer);
+</script>
+{% endblock %}

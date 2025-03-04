@@ -1,31 +1,70 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <header class="header">
-      <p>Welcome back to Pixel Tasks!!!</p>
-    </header>
-    <main class="main">
-      {% for project in projects %}
-      <div>
-        <p>{{project.name}}</p>
-        <p>{{project.description}}</p>
+{% extends 'layouts/base.html' %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'CSS/dashboard.css' %}" />
+{% endblock %} {% block content %}
+
+<main class="main">
+  <h1 class="main--h1">Dashboard</h1>
+  <div class="main__projects">
+    {% if projects %} {% for project in projects %}
+    <div
+      class="main__projects__project"
+      onclick="window.location.href = '/projectOverview/{{ project.id }}'"
+    >
+      <p class="main__projects__project--name">{{ project.name }}</p>
+      <div class="main__projects__project--progress-bar">
+        <div
+          class="main__projects__project--progress-bar__fill"
+          style="--progress-width: {{ project.progress }}%;"
+        ></div>
       </div>
-      {% endfor %}
-    </main>
-    <aside class="aside">
-      <img
-        class="aside--img"
-        src="https://brandlogos.net/wp-content/uploads/2022/08/google_pixel-logo_brandlogos.net_iuc7r.png"
-        alt=""
-      />
-      <section>Dashboard</section>
-      <section>Proyects</section>
-      <section>Pomodoro</section>
-    </aside>
-     
-  </body>
-</html>
+    </div>
+    {% endfor %} {% else %}
+    <p class="no-projects">No projects D:</p>
+    {% endif %}
+  </div>
+  <div class="create" onclick="showForm()">
+    <i class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+        <path
+          d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z"
+        />
+      </svg>
+    </i>
+  </div>
+</main>
+
+<div id="projectForm" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="hideForm()">&times;</span>
+    <form action="{% url 'dashboard' %}" method="post" autocomplete="off">
+      {% csrf_token %}
+      <label for="name">Project Name:</label>
+      <input type="text" id="name" name="name" required />
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea>
+      <button type="submit">Create Project</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const progressBars = document.querySelectorAll(
+      ".main__projects__project--progress-bar__fill"
+    );
+    progressBars.forEach((bar) => {
+      const progressWidth = bar.style.getPropertyValue("--progress-width");
+      bar.style.width = progressWidth;
+    });
+  });
+
+  function showForm() {
+    document.getElementById("projectForm").style.display = "block";
+  }
+
+  function hideForm() {
+    document.getElementById("projectForm").style.display = "none";
+  }
+</script>
+{% endblock %}
